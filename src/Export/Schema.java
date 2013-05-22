@@ -84,7 +84,7 @@ public class Schema {
                 IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + name, 1, "тип аварійної дії '" + currConfig.getProperty("opt_em_action") + "' не підтримується системою.");
             }
         }
-        IOControl.serverWrapper.log(IOControl.EXPORT_LOGID, 3, "завантажено схему імпорту '" + this.name + "'");
+        IOControl.serverWrapper.log(IOControl.EXPORT_LOGID, 3, "завантажено схему експорту '" + this.name + "'");
     }
     
     /**
