@@ -181,7 +181,7 @@ public class Dispatcher {
      * @param exportedMessage message to export;
      */
     public void initExport(MessageClasses.Message exportedMessage) {
-        ReleaseSwitch newSwitch = new ReleaseSwitch();
+        ReleaseSwitch newSwitch = new ReleaseSwitch(exportedMessage.INDEX);
         for (String currDir : exportedMessage.DIRS) {
             if (this.subscribes.containsKey(currDir)) {
                 newSwitch.addSchemas(subscribes.get(currDir));

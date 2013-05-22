@@ -42,7 +42,7 @@ public abstract class SystemWrapper {
     /**
      * Call message index updating.
      */
-    public abstract void updateIndex();
+    public abstract void updateIndex(String givenIndex);
     
     /**
      * Register property name for import/export module.

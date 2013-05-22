@@ -31,6 +31,19 @@ import Utils.IOControl;
 public class ReleaseSwitch {
     
     /**
+     * Default constructor.
+     * @param givenIndex index of exported message;
+     */
+    public ReleaseSwitch(String givenIndex) {
+        INDEX = givenIndex;
+    }
+    
+    /**
+     * Index of exported message.
+     */
+    private String INDEX;
+    
+    /**
      * Array with schemas names.
      */
     private java.util.ArrayList<String> SCHEMAS = new java.util.ArrayList<>();
@@ -59,6 +72,6 @@ public class ReleaseSwitch {
      * Call to index update method after all schemas export.
      */
     private void markSwitch() {
-        IOControl.serverWrapper.updateIndex();
+        IOControl.serverWrapper.updateIndex(INDEX);
     }
 }
