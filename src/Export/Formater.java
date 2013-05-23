@@ -47,12 +47,15 @@ public class Formater {
      */
     private char[] templateChar;
     
+    private java.util.Properties schemaProp;
+    
     /**
      * Default constructor.
      * @param givenTemplate template for formating;
      */
-    Formater(String givenTemplate) {
+    Formater(java.util.Properties givenProp, String givenTemplate) {
         this.currTemplate = givenTemplate;
+        this.schemaProp = givenProp;
     }
     
     /**
