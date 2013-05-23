@@ -213,12 +213,32 @@ public class Formater {
         },
         
         /**
+         * UPPER_HEADER keyword: return uppercase header of message.
+         */
+        new FormatOperation("UPPER_HEADER") {
+            @Override
+            public String process(Formater givenFormater) {
+                return givenFormater.currMessage.HEADER.toUpperCase();
+            }
+        },
+        
+        /**
          * CONTENT keyword: return content of message.
          */
         new FormatOperation("CONTENT") {
             @Override
             public String process(Formater givenFormater) {
                 return givenFormater.currMessage.CONTENT;
+            }
+        },
+        
+        /**
+         * HTML_CONTENT keyword: return content of message with HTML line break.
+         */
+        new FormatOperation("HTML_CONTENT") {
+            @Override
+            public String process(Formater givenFormater) {
+                return givenFormater.currMessage.CONTENT.replaceAll("\n","<br/>");
             }
         },
         
