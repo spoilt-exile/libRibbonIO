@@ -108,6 +108,9 @@ public class Dispatcher {
      * @param givenDirName name of directory;
      */
     public void subscribeDir(String[] givenSchemas, String givenDirName) {
+	if (givenSchemas == null) {
+	    return;
+	}
         java.util.ArrayList<String> putList = new java.util.ArrayList();
         for (String currScheme : givenSchemas) {
             if (currScheme.isEmpty()) {
