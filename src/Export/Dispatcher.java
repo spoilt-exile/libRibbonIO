@@ -63,6 +63,7 @@ public class Dispatcher {
     public Dispatcher(String givenModulePath, String givenDirPath) {
         exportDirPath = givenDirPath;
         exportModulePath = givenModulePath;
+        Utils.IOControl.registerExport(this);
         moduleList = Utils.IOControl.loadModules(givenModulePath);
         java.io.File exportPropsDir = new java.io.File(exportDirPath);
         if (!exportPropsDir.exists()) {
@@ -99,7 +100,6 @@ public class Dispatcher {
         if (this.schemaList.isEmpty()) {
             Utils.IOControl.serverWrapper.log(Utils.IOControl.EXPORT_LOGID, 2, "система не знайшла жодної схеми экспорту!");
         }
-        Utils.IOControl.registerExport(this);
     }
     
     /**
