@@ -96,4 +96,11 @@ public abstract class SystemWrapper {
      * @see #enableDirtyState(java.lang.String, java.lang.String, java.lang.String) 
      */
     public abstract void disableDirtyState(String moduleType, String moduleScheme, String modulePrint);
+    
+    /**
+     * Post exception as message to the debug directory.
+     * @param desc short description of exceptional situation;
+     * @param ex exception object;
+     */
+    public abstract void postException(String desc, Throwable ex);
 }

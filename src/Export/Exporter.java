@@ -80,7 +80,9 @@ public abstract class Exporter extends Thread {
         } catch (Exception ex) {
             IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 1, "експорт повідомлення '" + this.exportedMessage.HEADER + "' завершився помилкою.");
             IOControl.serverWrapper.enableDirtyState(this.currSchema.type, this.currSchema.name, this.currSchema.currConfig.getProperty("export_print"));
-            ex.printStackTrace();
+            IOControl.serverWrapper.postException("Помилка експорту: схема " + this.currSchema.name
+                    + " тип " + this.currSchema.type
+                    + "\nПовідомлення " + this.exportedMessage.HEADER + " за індексом " + this.exportedMessage.INDEX, ex);
         }
         this.currSwitch.markSchema(this.currSchema.name);
     }
