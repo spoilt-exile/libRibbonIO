@@ -55,6 +55,11 @@ public abstract class Exporter extends Thread {
     protected MessageClasses.Message exportedMessage;
     
     /**
+     * Charset for export.
+     */
+    protected String exportedCharset = "UTF-8";
+    
+    /**
      * Default constructor.
      * @param givenMessage message to export;
      * @param givenSchema export scheme reference;
@@ -71,12 +76,19 @@ public abstract class Exporter extends Thread {
         } else {
             exportedContent = exportedMessage.CONTENT;
         }
+        if (currSchema.currConfig.getProperty("opt_charset") != null) {
+            exportedCharset = currSchema.currConfig.getProperty("opt_charset");
+        }
     }
     
     @Override
     public void run() {
         try {
             doExport();
+            if ("1".equals(this.currSchema.currConfig.getProperty("opt_log"))) {
+                IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 3, "прозведено експорт повідомлення " + this.exportedMessage.INDEX);
+            }
+            exportedMessage.PROPERTIES.add(new MessageClasses.MessageProperty(this.currSchema.currConfig.getProperty("export_type"), "root", this.currSchema.currConfig.getProperty("export_print"), IOControl.serverWrapper.getDate()));
         } catch (Exception ex) {
             IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 1, "експорт повідомлення '" + this.exportedMessage.HEADER + "' завершився помилкою.");
             IOControl.serverWrapper.enableDirtyState(this.currSchema.type, this.currSchema.name, this.currSchema.currConfig.getProperty("export_print"));
