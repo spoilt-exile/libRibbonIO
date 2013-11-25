@@ -155,8 +155,6 @@ public final class IOControl {
             IOControl.serverWrapper.registerPropertyName(strPropType);
             return new Utils.ModuleContainer(strType, givenClass);
         } catch (NoSuchFieldException ex) {
-            IOControl.serverWrapper.log(givenClass.getName(), 1, "Клас не є модулем!");
-            //ex.printStackTrace();
             return null;
         } catch (IllegalArgumentException ex) {
             IOControl.serverWrapper.log(givenClass.getName(), 1, "Неможливо визначити тип модулю!");
