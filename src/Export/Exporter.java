@@ -88,7 +88,7 @@ public abstract class Exporter extends Thread {
             if ("1".equals(this.currSchema.currConfig.getProperty("opt_log"))) {
                 IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 3, "прозведено експорт повідомлення " + this.exportedMessage.INDEX);
             }
-            exportedMessage.PROPERTIES.add(new MessageClasses.MessageProperty(this.currSchema.currConfig.getProperty("export_type"), "root", this.currSchema.currConfig.getProperty("export_print"), IOControl.serverWrapper.getDate()));
+            exportedMessage.PROPERTIES.add(new MessageClasses.MessageProperty("EXPORT_" + this.currSchema.currConfig.getProperty("export_type"), "root", this.currSchema.currConfig.getProperty("export_print"), IOControl.serverWrapper.getDate()));
         } catch (Exception ex) {
             IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 1, "експорт повідомлення '" + this.exportedMessage.HEADER + "' завершився помилкою.");
             IOControl.serverWrapper.enableDirtyState(this.currSchema.type, this.currSchema.name, this.currSchema.currConfig.getProperty("export_print"));
