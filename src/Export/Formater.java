@@ -53,7 +53,7 @@ public class Formater {
      * Default constructor.
      * @param givenTemplate template for formating;
      */
-    Formater(java.util.Properties givenProp, String givenTemplate) {
+    public Formater(java.util.Properties givenProp, String givenTemplate) {
         this.currTemplate = givenTemplate;
         this.schemaProp = givenProp;
     }
