@@ -49,6 +49,11 @@ public final class IOControl {
     private static String LOG_ID = "ВВІД/ВИВІД";
     
     /**
+     * Numeric id of current library API.
+     */
+    public static final int IO_API = 1;
+    
+    /**
      * System wrapper object.
      */
     public static Utils.SystemWrapper serverWrapper;
