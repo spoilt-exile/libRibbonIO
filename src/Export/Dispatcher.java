@@ -48,12 +48,58 @@ public class Dispatcher {
     private java.util.ArrayList<Schema> schemaList = new java.util.ArrayList<>();
     
     /**
+     * Error quene.
+     */
+    private final java.util.ArrayList<Exporter> errQuene = new java.util.ArrayList<>();
+    
+    /**
+     * Sync lock for error quene.
+     */
+    private final Object errQueneLock = new Object();
+    
+    /**
      * System directory export subscribes.<br>
      * <br>
      * Subsribe hash map has next structure:<br>
      * <b>DIR_NAME, ArrayList(SCHEME_NAME)</b>
      */
     private java.util.HashMap<String, java.util.ArrayList<String>> subscribes = new java.util.HashMap();
+    
+    /**
+     * Current error quene worker thread.
+     */
+    private ErrorQueneWorker currWorker = new ErrorQueneWorker();
+    
+    /**
+     * Error quene worker thread.
+     */
+    private class ErrorQueneWorker extends Thread {
+        
+        @Override
+        public void run() {
+            while (true) {
+                processErrQuene();
+                try {
+                    Thread.sleep(2 * 60 * 1000);        //Default timeout 2 min will be changed in the feature;
+                } catch (InterruptedException ex) {}
+            }
+        }
+        
+        /**
+         * Launch broken export task recovery.
+         */
+        public void processErrQuene() {
+            synchronized (errQueneLock) {
+                for (int index = 0; index < errQuene.size(); index++) {
+                    Exporter curr = errQuene.get(index);
+                    Boolean result = curr.tryRecovery();
+                    if (result) {
+                        errQuene.remove(curr);
+                    }
+                }
+            }
+        }
+    }
     
     /**
      * Default constructor.
@@ -184,6 +230,9 @@ public class Dispatcher {
      * @param exportedMessage message to export;
      */
     public void initExport(MessageClasses.Message exportedMessage) {
+        if (!currWorker.isAlive()) {
+            currWorker.start();
+        }
         ReleaseSwitch newSwitch = new ReleaseSwitch(exportedMessage.INDEX);
         for (String currDir : exportedMessage.DIRS) {
             if (this.subscribes.containsKey(currDir)) {
@@ -212,5 +261,15 @@ public class Dispatcher {
             }
         }
         return null;
+    }
+    
+    /**
+     * Add broken export task to export quene.
+     * @param brokenExport exporter object;
+     */
+    public void addToQuene(Exporter brokenExport) {
+        synchronized (errQueneLock) {
+            this.errQuene.add(brokenExport);
+        }
     }
 }

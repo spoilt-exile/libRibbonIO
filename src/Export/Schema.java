@@ -52,12 +52,29 @@ public class Schema {
      */
     public java.util.Properties currConfig;
     
+    /**
+     * Emergency action enumetation.
+     */
     public static enum EM_ACTION {
+        /**
+         * Silently place message to the error quene and raise dirty state.
+         */
         PLACE_ERRQ_DIRTY,
+        
+        /**
+         * Drop this message and print to log.
+         */
         DROP_WARN,
-        DROP_WARN_DIRTY
+        
+        /**
+         * Drop this message silently.
+         */
+        DROP_SILENT
     }
     
+    /**
+     * Current emergency action.
+     */
     EM_ACTION currAction = EM_ACTION.PLACE_ERRQ_DIRTY;
     
     /**

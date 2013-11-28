@@ -90,11 +90,21 @@ public abstract class Exporter extends Thread {
             }
             exportedMessage.PROPERTIES.add(new MessageClasses.MessageProperty("EXPORT_" + this.currSchema.currConfig.getProperty("export_type"), "root", this.currSchema.currConfig.getProperty("export_print"), IOControl.serverWrapper.getDate()));
         } catch (Exception ex) {
-            IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 1, "експорт повідомлення '" + this.exportedMessage.HEADER + "' завершився помилкою.");
-            IOControl.serverWrapper.enableDirtyState(this.currSchema.type, this.currSchema.name, this.currSchema.currConfig.getProperty("export_print"));
+            //IOControl.serverWrapper.enableDirtyState(this.currSchema.type, this.currSchema.name, this.currSchema.currConfig.getProperty("export_print"));
             IOControl.serverWrapper.postException("Помилка експорту: схема " + this.currSchema.name
                     + " тип " + this.currSchema.type
                     + "\nПовідомлення " + this.exportedMessage.HEADER + " за індексом " + this.exportedMessage.INDEX, ex);
+            switch (this.currSchema.currAction) {
+                case PLACE_ERRQ_DIRTY:
+                    IOControl.serverWrapper.enableDirtyState(this.currSchema.type, this.currSchema.name, this.currSchema.currConfig.getProperty("export_print"));
+                    IOControl.dispathcer.addToQuene(this);
+                    break;
+                case DROP_WARN: 
+                    IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 1, "експорт повідомлення '" + this.exportedMessage.HEADER + "' завершився помилкою.");
+                    break;
+                case DROP_SILENT:   //Do nothing
+                    break;
+            }
         }
         this.currSwitch.markSchema(this.currSchema.name);
     }
@@ -108,5 +118,18 @@ public abstract class Exporter extends Thread {
      * Try to recover current export task.
      * @return result of recovery operation;
      */
-    public abstract Boolean tryRecovery();
+    public Boolean tryRecovery() {
+        try {
+            this.doExport();
+            if ("1".equals(this.currSchema.currConfig.getProperty("opt_log"))) {
+                IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 3, "прозведено експорт повідомлення " + this.exportedMessage.INDEX);
+            }
+            exportedMessage.PROPERTIES.add(new MessageClasses.MessageProperty("EXPORT_" + this.currSchema.currConfig.getProperty("export_type"), "root", this.currSchema.currConfig.getProperty("export_print"), IOControl.serverWrapper.getDate()));
+            IOControl.serverWrapper.updateIndex(this.exportedMessage.INDEX);
+            IOControl.serverWrapper.disableDirtyState(this.currSchema.type, this.currSchema.name, this.currSchema.currConfig.getProperty("export_print"));
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
 }
