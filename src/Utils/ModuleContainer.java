@@ -31,6 +31,11 @@ public class ModuleContainer<E> {
     public String moduleType;
     
     /**
+     * Property of import/export module.
+     */
+    public String moduleProperty;
+    
+    /**
      * Class of import/export module.
      */
     public Class<E> moduleClass;
@@ -45,4 +50,14 @@ public class ModuleContainer<E> {
         moduleClass = givenModule;
     }
     
+    /**
+     * Default constructor.
+     * @param givenType type of constructed container;
+     * @param givenModule class of container's module;
+     */
+    public ModuleContainer(String givenType, String givenProp, Class givenModule) {
+        moduleType = givenType;
+        moduleProperty = givenProp;
+        moduleClass = givenModule;
+    }
 }

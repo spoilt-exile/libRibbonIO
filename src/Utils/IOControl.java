@@ -153,20 +153,15 @@ public final class IOControl {
      */
     private static Utils.ModuleContainer tryModule(Class givenClass) {
         try {
-            java.lang.reflect.Field typeField = givenClass.getField("type");
-            String strType = (String) typeField.get(new Object());
-            java.lang.reflect.Field propField = givenClass.getField("propertyType");
-            String strPropType = (String) propField.get(new Object());
-            IOControl.serverWrapper.registerPropertyName(strPropType);
-            return new Utils.ModuleContainer(strType, givenClass);
-        } catch (NoSuchFieldException ex) {
-            return null;
-        } catch (IllegalArgumentException ex) {
-            IOControl.serverWrapper.log(givenClass.getName(), 1, "Неможливо визначити тип модулю!");
-            //ex.printStackTrace();
-            return null;
-        } catch (IllegalAccessException ex) {
-            IOControl.serverWrapper.log(givenClass.getName(), 1, "неможливо отримати доступ до класу");
+            RibbonIOModule moduleNote = (RibbonIOModule) givenClass.getAnnotation(RibbonIOModule.class);
+            if (moduleNote != null && (moduleNote.api_version() <= IOControl.IO_API)) {
+                IOControl.serverWrapper.registerPropertyName(moduleNote.property());
+                return new Utils.ModuleContainer(moduleNote.type(), moduleNote.property(), givenClass);
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            IOControl.serverWrapper.log(LOG_ID, 1, "помилка опрацювання класу " + givenClass.getName());
             return null;
         }
     }
