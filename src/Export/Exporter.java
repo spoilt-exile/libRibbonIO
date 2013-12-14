@@ -88,7 +88,7 @@ public abstract class Exporter extends Thread {
             if ("1".equals(this.currSchema.currConfig.getProperty("opt_log"))) {
                 IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 3, "прозведено експорт повідомлення " + this.exportedMessage.INDEX);
             }
-            exportedMessage.PROPERTIES.add(new MessageClasses.MessageProperty("EXPORT_" + this.currSchema.currConfig.getProperty("export_type"), "root", this.currSchema.currConfig.getProperty("export_print"), IOControl.serverWrapper.getDate()));
+            exportedMessage.PROPERTIES.add(new MessageClasses.MessageProperty("EXPORT_" + this.currSchema.currConfig.getProperty("export_type"), "root", this.currSchema.currConfig.getProperty("export_print")));
         } catch (Exception ex) {
             //IOControl.serverWrapper.enableDirtyState(this.currSchema.type, this.currSchema.name, this.currSchema.currConfig.getProperty("export_print"));
             IOControl.serverWrapper.postException("Помилка експорту: схема " + this.currSchema.name
@@ -124,7 +124,7 @@ public abstract class Exporter extends Thread {
             if ("1".equals(this.currSchema.currConfig.getProperty("opt_log"))) {
                 IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + this.currSchema.name, 3, "прозведено експорт повідомлення " + this.exportedMessage.INDEX);
             }
-            exportedMessage.PROPERTIES.add(new MessageClasses.MessageProperty("EXPORT_" + this.currSchema.currConfig.getProperty("export_type"), "root", this.currSchema.currConfig.getProperty("export_print"), IOControl.serverWrapper.getDate()));
+            exportedMessage.PROPERTIES.add(new MessageClasses.MessageProperty("EXPORT_" + this.currSchema.currConfig.getProperty("export_type"), "root", this.currSchema.currConfig.getProperty("export_print")));
             IOControl.serverWrapper.updateIndex(this.exportedMessage.INDEX);
             IOControl.serverWrapper.disableDirtyState(this.currSchema.type, this.currSchema.name, this.currSchema.currConfig.getProperty("export_print"));
             return true;
