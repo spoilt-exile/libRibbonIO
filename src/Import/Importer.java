@@ -89,7 +89,7 @@ public abstract class Importer extends Thread {
                 doImport();
             } catch (Exception ex) {
                 this.exStatus = ex;
-                IOControl.postModuleEx(importerName, this.getClass().getName(), ex);
+                IOControl.serverWrapper.postException("Помилка при імпорті: " + this.importerName, ex);
                 IOControl.serverWrapper.enableDirtyState(this.currConfig.getProperty("import_type"), importerName, importerPrint);
             }
             try {

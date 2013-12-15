@@ -165,26 +165,4 @@ public final class IOControl {
             return null;
         }
     }
-    
-    /**
-     * Post exception message from the module.
-     * @param schemeName name of the IO scheme;
-     * @param className name of the module class;
-     * @param ocurredEx exception from module;
-     */
-    public static void postModuleEx(String schemeName, String className, Exception ocurredEx) {
-        StringBuffer exMesgBuf = new StringBuffer();
-        exMesgBuf.append("Помилка при роботі модулю вводу/виводу ").append(className).append(" за схемою ").append(schemeName).append(" (").append(Utils.IOControl.serverWrapper.getDate()).append(")\n\n");
-        exMesgBuf.append(ocurredEx.getClass().getName() + "\n");
-        StackTraceElement[] stackTrace = ocurredEx.getStackTrace();
-        for (StackTraceElement element : stackTrace) {
-            exMesgBuf.append(element.toString() + "\n");
-        }
-        try {
-            MessageClasses.Message exMessage = new MessageClasses.Message(
-                    "Звіт про помилку", "root", "UA", new String[] {new String(Utils.IOControl.serverWrapper.getProperty("debug_post_dir").getBytes("ISO-8859-1"), "UTF-8")}, 
-                    new String[] {"ІТУ", "ПОМИЛКИ"}, exMesgBuf.toString());
-            Utils.IOControl.serverWrapper.addMessage(exMessage);
-        } catch (Exception ex) {}
-    }
 }
