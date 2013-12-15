@@ -35,9 +35,11 @@ public abstract class SystemWrapper {
     
     /**
      * Add message to the system.
+     * @param schemeName name of import scheme;
+     * @param typeName name of import type;
      * @param givenMessage message to add;
      */
-    public abstract void addMessage(MessageClasses.Message givenMessage);
+    public abstract void addMessage(String schemeName, String typeName, MessageClasses.Message givenMessage);
     
     /**
      * Call message index updating.
