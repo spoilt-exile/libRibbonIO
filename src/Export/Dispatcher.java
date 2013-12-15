@@ -230,6 +230,10 @@ public class Dispatcher {
      * @param exportedMessage message to export;
      */
     public void initExport(MessageClasses.Message exportedMessage) {
+        if (exportedMessage.getProperty("PROCESSING_FORBIDDEN") != null) {
+            IOControl.serverWrapper.log(IOControl.EXPORT_LOGID, 2, "повідомлення " + exportedMessage.INDEX + " заборонено випускати з системи");
+            return;
+        }
         if (!currWorker.isAlive()) {
             currWorker.start();
         }
