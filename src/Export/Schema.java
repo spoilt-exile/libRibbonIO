@@ -89,9 +89,9 @@ public class Schema {
         name = currConfig.getProperty("export_name");
         if (currConfig.containsKey("export_template")) {
             try {
-                currFormater = new Formater(currConfig, new String(java.nio.file.Files.readAllBytes(new java.io.File(IOControl.dispathcer.exportDirPath + "/" + currConfig.getProperty("export_template")).toPath())));
+                currFormater = new Formater(currConfig, new String(java.nio.file.Files.readAllBytes(new java.io.File(IOControl.EXPORT_DIR + "/" + currConfig.getProperty("export_template")).toPath())));
             } catch (java.io.IOException ex) {
-                IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + name, 1, "помилка завантаження шаблону " + IOControl.dispathcer.exportDirPath + "/" + currConfig.getProperty("export_template"));
+                IOControl.serverWrapper.log(IOControl.EXPORT_LOGID + ":" + name, 1, "помилка завантаження шаблону " + IOControl.EXPORT_DIR + "/" + currConfig.getProperty("export_template"));
             }
         }
         if (currConfig.containsKey("opt_em_action")) {

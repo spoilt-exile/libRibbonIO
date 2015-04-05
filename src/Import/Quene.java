@@ -39,13 +39,19 @@ public class Quene {
     private java.util.ArrayList<Utils.ModuleContainer> moduleList;
     
     /**
+     * Path to import schemas files.
+     */
+    public String importDirPath;
+    
+    /**
      * Default constructor.
      * @param pluginPath path to search plugins.
-     * @param importDirPath path to search import configuration files.
+     * @param givenImportDirPath path to search import configuration files.
      */
-    public Quene (String pluginPath, String importDirPath) {
+    public Quene (String pluginPath, String givenImportDirPath) {
+        importDirPath = givenImportDirPath;
         this.moduleList = IOControl.loadModules(pluginPath);
-        java.io.File importPropsDir = new java.io.File(importDirPath);
+        java.io.File importPropsDir = new java.io.File(givenImportDirPath);
         if (!importPropsDir.exists()) {
             importPropsDir.mkdirs();
             IOControl.serverWrapper.log(IOControl.IMPORT_LOGID, 2, "Створюю теку імпорту...");
@@ -80,7 +86,6 @@ public class Quene {
         if (this.importList.isEmpty()) {
             IOControl.serverWrapper.log(IOControl.IMPORT_LOGID, 2, "система не знайшла жодної схеми імпорту!");
         }
-        IOControl.registerImport(this);
     }
     
     /**

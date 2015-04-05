@@ -44,14 +44,24 @@ public final class IOControl {
     public static String EXPORT_LOGID = "ЕКСПОРТ";
     
     /**
+     * Import configs dir path.
+     */
+    public static String IMPORT_DIR;
+    
+    /**
+     * Export configs dir path.
+     */
+    public static String EXPORT_DIR;
+    
+    /**
      * Log id for this class.
      */
-    private static String LOG_ID = "ВВІД/ВИВІД";
+    public static String LOG_ID = "ВВІД/ВИВІД";
     
     /**
      * Numeric id of current library API.
      */
-    public static final int IO_API = 1;
+    public static final int IO_API = 2;
     
     /**
      * System wrapper object.
@@ -77,8 +87,18 @@ public final class IOControl {
     }
     
     /**
+     * Register path dir variables (uses for modules initiation).
+     * @param importPath path of import config folder;
+     * @param exportPath path of export config folder;
+     */
+    public static void registerPathes(String importPath, String exportPath) {
+        IMPORT_DIR = importPath;
+        EXPORT_DIR = exportPath;
+    }
+    
+    /**
      * Register quene 
-     * @param givenQuene 
+     * @param givenQuene quene reference to register;
      */
     public static void registerImport(Import.Quene givenQuene) {
         IOControl.quene = givenQuene;
@@ -86,7 +106,7 @@ public final class IOControl {
     
     /**
      * Register dispatcher.
-     * @param givenDispatcher 
+     * @param givenDispatcher dispather reference to register 
      */
     public static void registerExport(Export.Dispatcher givenDispatcher) {
         IOControl.dispathcer = givenDispatcher;

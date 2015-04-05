@@ -28,11 +28,6 @@ import Utils.IOControl;
 public class Dispatcher {
     
     /**
-     * Path to export schemas.
-     */
-    public String exportDirPath;
-    
-    /**
      * Path to export modules.
      */
     public String exportModulePath;
@@ -107,11 +102,9 @@ public class Dispatcher {
      * @param givenModulePath path to modules to load;
      */
     public Dispatcher(String givenModulePath, String givenDirPath) {
-        exportDirPath = givenDirPath;
         exportModulePath = givenModulePath;
-        Utils.IOControl.registerExport(this);
         moduleList = Utils.IOControl.loadModules(givenModulePath);
-        java.io.File exportPropsDir = new java.io.File(exportDirPath);
+        java.io.File exportPropsDir = new java.io.File(givenDirPath);
         if (!exportPropsDir.exists()) {
             exportPropsDir.mkdirs();
             Utils.IOControl.serverWrapper.log(Utils.IOControl.EXPORT_LOGID, 2, "Створюю теку експорту...");
